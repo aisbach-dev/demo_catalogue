@@ -391,6 +391,12 @@ def apply_design():
     st.markdown('''<style>.css-10trblm{margin-bottom: -1.5rem;}</style>''',
                 unsafe_allow_html=True)"""
 
+    # Design change margins below subheader titles
+    st.markdown('''<style>.st-emotion-cache-qowy96{background: white;}</style>''',
+                unsafe_allow_html=True)
+
+    #
+
 
     # Design hide top header line
     hide_decoration_bar_style = '''<style>header {visibility: hidden;}</style>'''

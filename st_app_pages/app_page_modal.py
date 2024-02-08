@@ -1,5 +1,5 @@
 import streamlit as st
-
+from st_app_design import add_spacer
 
 def set_bg_hack_url():
    '''
@@ -13,8 +13,8 @@ def set_bg_hack_url():
       f"""
         <style>
         .stApp {{
-            background: url("https://github.com/aisbach-dev/demo_catalogue/blob/main/img/bg_blurred_light.png?raw=true");
-            background-size: cover
+            background: url("https://raw.githubusercontent.com/aisbach-dev/demo_catalogue/main/img/bg_blurred_light.png?raw=true");
+            background-size: contain
         }}
         </style>
         """,
@@ -24,5 +24,12 @@ def set_bg_hack_url():
 def build_page():
    set_bg_hack_url()
 
-   st.title('modal')
+   add_spacer(10)
+
+   cols = st.columns([1, 1, 1])
+   with cols[1]:
+      with st.expander("please enter mail to access DEMO app", expanded=True):
+         st.write('dfgdgf')
+
+
 
