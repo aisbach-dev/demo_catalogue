@@ -320,7 +320,7 @@ def aggrid_dict_table(data_dict, aggrid_table_key, height):
 
 def apply_design():
     # Design implement changes to the standard streamlit UI/UX
-    st.set_page_config(page_title="Tender Port", layout="wide", page_icon="img/logo_concept2_icon.png")
+    st.set_page_config(page_title="AISBACH Demo", layout="wide", page_icon="img/aisbach_logo.png")
 
     # Global Font Roboto
     global_font_style = """
@@ -439,12 +439,12 @@ def layout(*args):
 
 def footer_main():
     myargs = ["Implemented by ",
-              link("https://www.linkedin.com/in/stefanrmmr/", "Stefan Rummer", 'black'), ", ",
-              br(), "© TenderPort 2023, all rights reserved "]
+              link("https://www.aisbach.com", "AISBACH Data Solutions UG", 'black'),
+              br(), "© 2024, all rights reserved "]
     layout(*myargs)
 
 
 def footer_sidebar():
-    myargs = [link("http://tenderport.tilda.ws/", "TenderPort", 'grey'),
-              ", founded February 2023", br(), "[Early Access Platform DEMO]"]
+    myargs = [link("http://www.aisbach.com/", "AISBACH", 'grey'),
+              ", founded June 2023", br(), "[AI Use Case Demo]"]
     layout(*myargs)
