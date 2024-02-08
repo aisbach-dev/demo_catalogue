@@ -391,6 +391,7 @@ def apply_design():
     st.markdown('''<style>.css-10trblm{margin-bottom: -1.5rem;}</style>''',
                 unsafe_allow_html=True)"""
 
+
     # Design hide top header line
     hide_decoration_bar_style = '''<style>header {visibility: hidden;}</style>'''
     st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
@@ -405,9 +406,9 @@ def get_option_menu_design(background_color="#F0F2F6", margin_bottom=""):
     styles = {"container": {"padding": "0!important",
                             "background-color": background_color,
                             "margin-bottom": margin_bottom},
-              "icon": {"color": "#00e68a", "font-size": "0.9rem"},
+              "icon": {"color": "#16C89D", "font-size": "0.9rem"},
               "nav-link": {"font-size": "0.95rem", "text-align": "left", "margin": "0px", "--hover-color": "#eee"},
-              "nav-link-selected": {"background-color": "#125140"}}
+              "nav-link-selected": {"background-color": "black"}}
     return styles
 
 
