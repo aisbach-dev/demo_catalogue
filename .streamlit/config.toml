@@ -1,0 +1,20 @@
+[theme]
+
+# The preset Streamlit theme that your custom theme inherits from.
+# One of "light" or "dark".
+# base = "light"
+
+# frequently across your app's widgets (slider, checkbox, buttons)
+primaryColor = "#125140"  # "#2E3D38"  # "#00E68A" # TenderPort neon Accent green
+
+# Background color for the main container.
+backgroundColor = "#FFFFFF"
+
+# Used as the background for most widgets (sidebar, text input etc.)
+secondaryBackgroundColor = "#F0F2F6"
+
+# Font color for the page.
+textColor = "#424242"
+
+# Font family for the page. (One of "serif", "sans serif" or "mono")
+font = "sans serif"
