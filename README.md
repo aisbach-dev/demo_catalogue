@@ -1,5 +1,2 @@
 # demo_catalogue
-- test readme
-- dfgh
-- fgh
-- Nico
+- Nico stinkt <3
