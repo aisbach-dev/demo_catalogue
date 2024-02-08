@@ -18,3 +18,5 @@ textColor = "#424242"
 
 # Font family for the page. (One of "serif", "sans serif" or "mono")
 font = "sans serif"
+
+toolbarMode = "viewer"
