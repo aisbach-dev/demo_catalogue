@@ -60,6 +60,7 @@ def app_content():
     with st.sidebar:
         st.image('img/aisbach_logo_rounded.png')
 
+
         # TOP HEADER NAV MENU BAR (horizontal)
         menu_choice = option_menu(None, ["Welcome Info",
                                          "---",
@@ -85,6 +86,7 @@ def app_content():
                                          'bi-envelope-at'],
                                   menu_icon="cast", default_index=0, orientation="vertical", key='menu_choice',
                                   styles=get_option_menu_design('white', '1rem'))
+
 
         # PAGE SWITCH UPDATE page aggrid page keys if page is switched
         if st.session_state.menu_current_page != menu_choice:

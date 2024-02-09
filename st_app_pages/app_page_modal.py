@@ -65,7 +65,9 @@ def build_page():
       with st.expander("Disclaimer & Access", expanded=True):
 
          input_mail = st.text_input('please enter your email address')
-         # input_consent = st.checkbox('By clicking the button below I consent to AISBACH storing my email address for user analytics purposes, tracking which demo apps I have accessed and eventually contacting me for further questioning or marketing purposes via the entered email address.')
+         # input_consent = st.checkbox('By clicking the button below I consent to AISBACH storing my email
+         # address for user analytics purposes, tracking which demo apps I have accessed and eventually contacting
+         # me for further questioning or marketing purposes via the entered email address.')
 
          st.caption(" By clicking \"Access Demo App Now\" you accept AISBACH's"
                     " [Terms of Service](http://tenderport.tilda.ws/terms-and-conditions) and"
@@ -80,7 +82,11 @@ def build_page():
          if st.session_state.error_invalid_email:
             custom_message_box('**Error:** Invalid e-mail address format.')
 
-         st.button('Access Demo App Now', disabled=submit_button_disabled, type='primary', on_click=callback_collect_user_email, args=(input_mail, ))
+         st.button('Access Demo App Now',
+                   disabled=submit_button_disabled,
+                   type='primary',
+                   on_click=callback_collect_user_email,
+                   args=(input_mail, ))
 
 
    st.container(height=600, border=False)
