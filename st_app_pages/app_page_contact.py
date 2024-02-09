@@ -1,12 +1,9 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 def build_page():
 
-   st.title('CONTACT')
-
-   st.write('AISBACH Data Solutions UG.')
-   st.write('contact@aisbach.com')
-   st.write('+491778191380, (Stefan Rummer, CTO)')
-   st.write('Nanga-Parbat-Street 34B, 80992 Munich, Germany')
-
+   st.link_button('Open Website in **NEW TAB**', "https://www.aisbach.com/#contact", type="secondary", use_container_width=True)
+   iframe_src = "https://www.aisbach.com/contact"
+   components.iframe(iframe_src, height=1000)

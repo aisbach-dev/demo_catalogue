@@ -18,6 +18,7 @@ from st_app_pages import app_page_demo2
 from st_app_pages import app_page_demo3
 from st_app_pages import app_page_demo4
 from st_app_pages import app_page_demo5
+from st_app_pages import app_page_demo6
 from st_app_pages import app_page_contact
 from st_app_pages import app_page_website
 
@@ -67,11 +68,13 @@ def app_content():
                                          "Demo App 3",
                                          "Demo App 4",
                                          "Demo App 5",
+                                         "Demo App 6",
                                          "---",
                                          "Our Website",
                                          "Contact Us"],
                                   icons=["bi-info-circle",
                                          '',
+                                         'bi-bar-chart',
                                          'bi-bar-chart',
                                          'bi-bar-chart',
                                          'bi-bar-chart',
@@ -98,9 +101,6 @@ def app_content():
 
             menu_page_changed = True  # information that page change
 
-
-
-        st.link_button('Open Website in **NEW TAB**', "https://www.aisbach.com", type="primary", use_container_width=True, )
 
 
 
@@ -141,6 +141,8 @@ def app_content():
             wrapper_build_page_loading(app_page_demo4, menu_page_changed)
         elif menu_choice == 'Demo App 5':
             wrapper_build_page_loading(app_page_demo5, menu_page_changed)
+        elif menu_choice == 'Demo App 6':
+            wrapper_build_page_loading(app_page_demo6, menu_page_changed)
         elif menu_choice == 'Our Website':
             wrapper_build_page_loading(app_page_website, menu_page_changed)
         elif menu_choice == 'Contact Us':

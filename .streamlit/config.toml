@@ -5,7 +5,7 @@
 # base = "light"
 
 # frequently across your app's widgets (slider, checkbox, buttons)
-primaryColor = "#545454"  # "#2E3D38"  # "#00E68A" # TenderPort neon Accent green
+primaryColor = "black"  # "#2E3D38"  # "#00E68A" # TenderPort neon Accent green
 
 # Background color for the main container.
 backgroundColor = "#FFFFFF"
