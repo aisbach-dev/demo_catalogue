@@ -1,19 +1,18 @@
-import os
+# AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
+
 import streamlit as st
 from streamlit_image_coordinates import streamlit_image_coordinates
 
-
+# IMPORT streamlit design overrides
 from st_app_design import footer_main
 from st_app_design import apply_design
 from st_app_design import add_spacer
-from st_app_funct import build_sidebar_menu
 
 # IMPORT app menu navigation & session states
 from st_app_funct import init_session_state
+from st_app_funct import build_sidebar_menu
 from st_app_funct import page_switch
 
-# IMPORT PAGES (aka the individual demo apps)
-from pages import app_page_modal
 
 # APPLY GRAPHIC DESIGN
 apply_design()

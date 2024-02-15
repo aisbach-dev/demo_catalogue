@@ -1,3 +1,5 @@
+# AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
+
 import os
 import streamlit as st
 import streamlit_float  # recommended

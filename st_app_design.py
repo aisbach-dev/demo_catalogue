@@ -1,3 +1,5 @@
+# AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
+
 import streamlit as st
 import pandas as pd
 import time
