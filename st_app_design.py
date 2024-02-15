@@ -2,10 +2,8 @@ import streamlit as st
 import pandas as pd
 import time
 import re
-from st_aggrid import AgGrid, GridOptionsBuilder, JsCode
 from htbuilder import HtmlElement, div, br, hr, a, p, styles
 from htbuilder.units import percent, px
-from bokeh.models.widgets import Div
 
 
 def add_spacer(lines):
@@ -13,28 +11,6 @@ def add_spacer(lines):
     while count < lines:
         st.write('\n')
         count += 1
-
-
-def open_website_url_new_window(website_url):
-    with st.spinner('opening external website'):
-        container = st.container()
-        # Create the Bokeh chart inside the container
-        with container:
-            js = f"window.open('{website_url}')"  # New tab or window
-            # js = "window.location.href = 'https://www.streamlit.io/'"  # Current tab
-            html = '<img src onerror="{}">'.format(js)
-            div = Div(text=html)
-            # st.bokeh_chart(div)
-            st.bokeh_chart(div)
-
-            time.sleep(0.5)  # maybe longer? --> not rerun before page is opened
-            # no rerun - otherwise the external website won't open
-
-    # does not work when deployed to the web
-    """# other approaches did not work locally and deployed
-    with st.spinner('loading external website'):
-        new_tab = 2  # Open URL in a new tab
-        webbrowser.open(website_url, new=new_tab)"""
 
 
 def markdown_bold_to_html(text):
@@ -129,195 +105,6 @@ def custom_subheader_status(header_text, header_status):
     st.markdown(subheader_styled, unsafe_allow_html=True)
 
 
-def button_cell_renderer_view(button_text):
-    button_renderer = JsCode('''
-                        class BtnCellRenderer {
-                            init(params) {
-                                this.params = params;
-                                this.eGui = document.createElement('div');
-                                this.eGui.innerHTML = `
-                                 <span>
-                                    <button id='click-button' 
-                                        class='btn-simple' 
-                                        style='color: ${this.params.color};
-                                               background-color: ${this.params.background_color};
-                                               border:none;outline:none; font-weight:bold;
-                                               border-radius:4px; height:1.45rem; 
-                                               padding-right:0.5rem; padding-left:0.5rem;'>'''
-                             + f'{button_text}' + '''
-
-                                    </button>
-                                 </span>
-                              `;
-
-                                this.eButton = this.eGui.querySelector('#click-button');
-
-                                this.btnClickedHandler = this.btnClickedHandler.bind(this);
-                                this.eButton.addEventListener('click', this.btnClickedHandler);
-
-                            }
-
-                            getGui() {
-                                return this.eGui;
-                            }
-
-                            refresh() {
-                                return true;
-                            }
-
-                            destroy() {
-                                if (this.eButton) {
-                                    this.eGui.removeEventListener('click', this.btnClickedHandler);
-                                }
-                            }
-
-                            btnClickedHandler(event) {
-
-                                var timeStamp = Date.now();
-                                var dateFormat = new Date(timeStamp);
-
-                                this.refreshTable((
-                                dateFormat.getDate()+"."+
-                                (dateFormat.getMonth()+1)+"."+
-                                dateFormat.getFullYear()+" "+
-                                dateFormat.getHours()+":"+
-                                dateFormat.getMinutes()+":"+
-                                dateFormat.getSeconds()+":"+
-                                dateFormat.getMilliseconds()));
-                            }
-
-                            refreshTable(value) {
-                                this.params.setValue(value);
-                            }
-                        };
-                        ''')
-    return button_renderer
-
-
-def offer_status_cell_renderer():
-    renderer = JsCode('''
-            function(params) {
-                var cellValue = params.value;
-                var eCell = document.createElement('div');
-                eCell.style.marginTop = '0.1rem';
-                if (cellValue === 'supplier_withdrew') {
-                    eCell.style.backgroundColor = '#F0F2F6';
-                    eCell.style.color = 'grey';
-                    eCell.style.paddingLeft = '10px';
-                    eCell.style.paddingRight = '10px';
-                } else if (cellValue === 'offer_submitted') {
-                    eCell.style.backgroundColor = '#CCE0DE';
-                    eCell.style.fontWeight = 'regular';
-                    eCell.style.paddingLeft = '10px';
-                    eCell.style.paddingRight = '10px';
-                } else if (cellValue === 'buyer_rejected') {
-                    eCell.style.backgroundColor = 'lightgrey';
-                    eCell.style.color = '#424242';
-                    eCell.style.fontWeight = 'bold';
-                    eCell.style.paddingLeft = '10px';
-                    eCell.style.paddingRight = '10px';
-                } else if (cellValue === 'buyer_accepted') {
-                    eCell.style.backgroundColor = '#EEF9EE';
-                    eCell.style.color = '#125140';
-                    eCell.style.fontWeight = 'bold';
-                    eCell.style.paddingLeft = '10px';
-                    eCell.style.paddingRight = '10px';
-                } else if (cellValue === 'buyer_next_steps') {
-                    eCell.style.backgroundColor = '#CCE0DE';
-                    eCell.style.fontWeight = 'bold';
-                    eCell.style.paddingLeft = '10px';
-                    eCell.style.paddingRight = '10px';
-                }
-                eCell.textContent = cellValue.split("_").map(function (word) {
-                return word.charAt(0).toUpperCase() + word.slice(1);
-                }).join(" ");
-                return eCell;
-
-            }''')
-
-    return renderer
-
-
-def aggrid_custom_css():
-    # TODO change font to roboto and change font weight to be easy on the eye
-
-    aggrid_table_custom_css = {  # customize the background color when hovering over a row
-        ".ag-row-hover": {"background-color": "rgba(0,230,138, 0.2) !important"},
-        # customize the top and bottom borders of the rows
-        '.ag-theme-streamlit .ag-row': {
-            'border-top-color': 'white',
-            'border-bottom-color': '#E0DCDC',
-            'border-top-style': 'solid',
-            'border-bottom-style': 'solid',
-            'border-top-width': '0px',
-            'border-bottom-width': '1px'},
-        # customize the overall theme of the table
-        '.ag-theme-streamlit': {
-            '--ag-alpine-active-color': 'green',  # color of checkboxes
-            '--ag-range-selection-background-color-4': '#EEF9EE',
-            '--ag-range-selection-background-color-3': '#EEF9EE',
-            '--ag-range-selection-background-color-2': '#EEF9EE',
-            '--ag-range-selection-background-color': '#EEF9EE',
-            '--ag-range-selection-border-color': '#CCE0DE',
-            '--ag-input-focus-border-color': '#CCE0DE',
-            '--ag-input-border-color-invalid': '#CCE0DE',
-            '--ag-selected-row-background-color': '#CCE0DE',  # table row current hover
-            '--ag-row-hover-color': '#CCE0DE',
-            '--ag-column-hover-color': '#CCE0DE',
-            'border-color': 'white !important',
-            'border-style': 'solid',
-            'border-width': '0px',
-            'box-shadow': 'none',
-            'outline': 'none'},
-        # customize the border of the root wrapper
-        '.ag-root-wrapper': {
-            'border': 'none',
-            'border-color': 'white !important'},
-        # customize the appearance of selected cells
-        ".ag-cell-focus": {
-            "border": "1px solid white !important",
-            "border-right": "1px solid #F0ECEC !important"}}
-
-    return aggrid_table_custom_css
-
-
-def aggrid_dict_table(data_dict, aggrid_table_key, height):
-    df_data_display = pd.DataFrame.from_dict(data_dict, orient='index')
-    df_data_display = df_data_display.reset_index()
-    df_data_display.columns.values[0] = 'attributes'
-    df_data_display.columns.values[1] = 'content'
-
-    # BUILD AGGRID TABLE CONFIG
-    gb = GridOptionsBuilder.from_dataframe(df_data_display)
-    gb.configure_default_column(wrapText=True, autoHeight=True, editable=False, resizable=True, flex=True)
-    gb.configure_column('attributes', maxWidth=200, )
-
-    # generate the grid options object
-    grid_options = gb.build()
-
-    grid_options['enableCellTextSelection'] = True
-    grid_options['headerHeight'] = 0  # TODO do we keep this or naw? maybe rename the columns?
-    # grid_options['gridStyle'] = {'border': '1px solid white'}  # TODO not working :(
-
-    # find grid_options['columnDefs'] for attributes and modify cellStyle
-    attributes_col_def = next((col_def for col_def in grid_options['columnDefs']
-                               if col_def['field'] == 'attributes'), None)
-    if attributes_col_def:  # BOLD FONT styling of the text in column offer_status
-        attributes_col_def['cellStyle'] = {'fontWeight': 'bold', 'color': 'black'}
-
-    AgGrid(df_data_display,
-           gridOptions=grid_options,
-           # options=table_options,
-           # suppress_header=True,
-           key=aggrid_table_key,
-           fit_columns_on_grid_load=True,
-           custom_css=aggrid_custom_css(),
-           enable_enterprise_modules=True,
-           width='100%',
-           height=height,
-           reload_data=True)
-
-
 def apply_design():
     # Design implement changes to the standard streamlit UI/UX
     st.set_page_config(page_title="AISBACH Demo", layout="wide", page_icon="img/aisbach_logo.png")
@@ -406,16 +193,6 @@ def apply_design():
     hide_streamlit_footer = """<style>#MainMenu {visibility: hidden;}
                             footer {visibility: hidden;}</style>"""
     st.markdown(hide_streamlit_footer, unsafe_allow_html=True)
-
-
-def get_option_menu_design(background_color="#F0F2F6", margin_bottom=""):
-    styles = {"container": {"padding": "0!important",
-                            "background-color": background_color,
-                            "margin-bottom": margin_bottom},
-              "icon": {"color": "#16C89D", "font-size": "0.9rem"},
-              "nav-link": {"font-size": "0.95rem", "text-align": "left", "margin": "0px", "--hover-color": "#eee"},
-              "nav-link-selected": {"background-color": "black"}}
-    return styles
 
 
 def link(link_, text, color, **style):
