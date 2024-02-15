@@ -5,6 +5,7 @@ import streamlit_antd_components as sac
 from streamlit_javascript import st_javascript
 
 
+# TODO turn this into universal config for app names and pages
 page_name_mapping = {'app_page_demo1': 'Demo App 1',
                      'app_page_demo2': 'Demo App 2',
                      'app_page_demo3': 'Demo App 3',
