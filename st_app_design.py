@@ -6,6 +6,7 @@ import time
 import re
 from htbuilder import HtmlElement, div, br, hr, a, p, styles
 from htbuilder.units import percent, px
+import streamlit_antd_components as sac
 
 
 def add_spacer(lines):
@@ -111,6 +112,14 @@ def apply_design():
     # Design implement changes to the standard streamlit UI/UX
     st.set_page_config(page_title="AISBACH Demo", layout="wide", page_icon="img/aisbach_logo.png")
 
+    # Design hide top header line
+    hide_decoration_bar_style = '''<style>header {visibility: hidden;}</style>'''
+    st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
+
+    # Design move app body further up and remove top padding
+    st.markdown('''<style>.block-container.st-emotion-cache-z5fcl4.ea3mdgi5 {padding-top: 0rem;}</style>''',
+                unsafe_allow_html=True)
+
     # Global Font Roboto
     global_font_style = """
                         <style>
@@ -125,71 +134,17 @@ def apply_design():
     st.markdown('''<style>.css-16lush4 a {color: #00e68a;}</style>''',
                 unsafe_allow_html=True)  # for st.write
 
-    '''st.markdown("""<style>[data-testid=stSidebar] {background-color: #125140;}</style>""",
-                unsafe_allow_html=True)'''
-
-    # fix sidebar element spacing --> for all elements remove top padding
-    # st.markdown('''<style>.css-yq6wmf {margin-top:-10px;}</style>''',
-    #             unsafe_allow_html=True)
-
-    """"# Design change button text size
-    st.markdown('''<style>.css-1nt1o6y p{font-size: 0.8rem;}</style>''',
-                unsafe_allow_html=True)
-
-    # Design change multiselect font size
-    st.markdown('''<style>.st-em{font-size: 0.8rem;}</style>''',
-                unsafe_allow_html=True)
-    # Design change multiselect text max chars length
-    st.markdown('''<style>.st-el{font-size: 0.8rem;}</style>''',
-                unsafe_allow_html=True)
-    # Design change multiselect text max chars length
-    st.markdown('''<style>.st-el{max-width: 200px;}</style>''',
-                unsafe_allow_html=True)
-    # Design change multiselect select dropdown font size
-    st.markdown('''<style>.css-8ojfln{font-size: 0.8rem;}</style>''',
-                unsafe_allow_html=True)
-
-    # Design change spinner color to primary color
-    st.markdown('''<style>.stSpinner > div > div {border-top-color: #00e68a;}</style>''',
-                unsafe_allow_html=True)
-
-    # Design change info notification text color
-    st.markdown('''<style>.st-al{color: black;}</style>''',
-                unsafe_allow_html=True)
-
-    # Design change height of text input box
-    st.markdown('''<style>.st-cd{line-height: 1.2}</style>''',
-                unsafe_allow_html=True)"""
-
     # Design move app body further up and remove top padding
     st.markdown('''<style>.css-k1vhr4 {margin-top: -6.5rem;}</style>''',
                 unsafe_allow_html=True)
-    # Design move sidebar header further up and remove top padding
-    # st.markdown('''<style>.css-1vq4p4l{margin-top: -2.5rem;}</style>''',
-    #             unsafe_allow_html=True)
 
-    """# Design change metrics header first line (empty)
-    st.markdown('''<style>.css-186pv6d{min-height: 0rem;}</style>''',
-                unsafe_allow_html=True)
 
-    # Design change height of text input fields headers
-    st.markdown('''<style>.css-qrbaxs {min-height: 0.0rem;}</style>''',
-        unsafe_allow_html=True)
-
-    # Design change margins below subheader titles
-    st.markdown('''<style>.css-10trblm{margin-bottom: -1.5rem;}</style>''',
-                unsafe_allow_html=True)"""
 
     # Design change margins below subheader titles
     st.markdown('''<style>.st-emotion-cache-qowy96{background: white;}</style>''',
                 unsafe_allow_html=True)
 
-    #
 
-
-    # Design hide top header line
-    hide_decoration_bar_style = '''<style>header {visibility: hidden;}</style>'''
-    st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
 
     # Design hide "made with streamlit" footer menu area
     hide_streamlit_footer = """<style>#MainMenu {visibility: hidden;}
@@ -224,6 +179,7 @@ def layout(*args):
 
 
 def footer_main():
+
     myargs = ["Implemented by ",
               link("https://www.aisbach.com", "AISBACH Data Solutions UG", 'black'),
               br(), "© 2024, all rights reserved "]
@@ -231,6 +187,22 @@ def footer_main():
 
 
 def footer_sidebar():
+
     myargs = [link("http://www.aisbach.com/", "AISBACH", 'grey'),
               ", founded June 2023", br(), "[AI Use Case Demo]"]
     layout(*myargs)
+
+
+def app_top_navbar():
+
+    # display navbar on top of app page
+    nav_cols = st.columns([1, 1])
+    with nav_cols[0]:
+        if st.button('⬅  **Return to Overview**'):
+            st.switch_page('st_app_main.py')
+    with nav_cols[1]:
+        sac.buttons([
+            sac.ButtonsItem(icon='envelope-fill', href='https://www.aisbach.com/#contact', color='#25C3B0'),
+            sac.ButtonsItem(icon='linkedin', href='https://www.linkedin.com/company/aisbach', color='#25C3B0'),
+            sac.ButtonsItem(icon='globe2', color='black', disabled=False)
+        ], align='end', index=2, key='weblinks')

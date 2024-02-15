@@ -1,16 +1,15 @@
 # AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
 
-
+import time
 import streamlit as st
-from st_app_funct import build_sidebar_menu
-from st_app_design import footer_main
-from st_app_design import apply_design
+from st_app_funct import launch_page
 
-# APPLY GRAPHIC DESIGN
-apply_design()
 
-build_sidebar_menu()
+def build_page():
 
-st.title('Demo App Page 1')
+    st.write('building page content')
+    time.sleep(3)
+    st.write('page built successfully')
 
-footer_main()
+
+launch_page(build_page, 'Demo App 1', 'lorem ipsum Beschreibung dies das')

@@ -3,19 +3,15 @@
 import streamlit as st
 from streamlit_image_coordinates import streamlit_image_coordinates
 
-# IMPORT streamlit design overrides
-from st_app_design import footer_main
-from st_app_design import apply_design
+# IMPORT custom design elements
 from st_app_design import add_spacer
+from st_app_design import custom_subheader
 
 # IMPORT app menu navigation & session states
-from st_app_funct import init_session_state
-from st_app_funct import build_sidebar_menu
 from st_app_funct import page_switch
+from st_app_funct import launch_page
 
 
-# APPLY GRAPHIC DESIGN
-apply_design()
 
 
 # TODO this function is currently not used --> maybe use for build process of the pages
@@ -36,18 +32,16 @@ def wrapper_build_page_loading(page, page_changed):
         page.build_page()  # Build the selected page
 
 
-def app_content():
+def build_app_content():
 
-    build_sidebar_menu()
-
-    st.title('Landing Page Grid Overview ')
-    st.divider()
     st.container(height=50, border=False)
 
     # create dict with keys 'img1' to 'img6', each initialized with None
     image_click_coordinates = {'img{}'.format(i): None for i in range(1, 7)}
 
     img_cols = st.columns([0.2, 0.5, 0.5, 0.5, 0.2])
+
+    # ROW 1 --> for optimal loading
     with img_cols[1]:
         st.header('**Demo App 1**')
         st.caption('lorem ipsum app beschreibung (click image to learn more)   \n'
@@ -57,15 +51,6 @@ def app_content():
                                         key='app_img1', width=300)
         st.page_link("pages/app_page_demo1.py", label='**View Demo App 1**')
         add_spacer(2)
-
-
-
-        st.header('**Demo App 4**')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img4'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img4', width=300)
 
     with img_cols[2]:
         st.header('**Demo App 2**')
@@ -78,17 +63,9 @@ def app_content():
             st.switch_page("pages/app_page_demo2.py")
         add_spacer(2)
 
-
-
-        st.header('**Demo App 5**')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img5'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img5', width=300)
-
     with img_cols[3]:
         st.header('**Demo App 3**')
+        custom_subheader('servus')
         st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
                    'lorem ipsum app beschreibung (click image to learn more)')
         image_click_coordinates['img3'] = \
@@ -99,12 +76,31 @@ def app_content():
         add_spacer(2)
 
 
+    # ROW 2 --> for optimal loading
+    with img_cols[1]:
+        st.header('**Demo App 4**')
+        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
+                   'lorem ipsum app beschreibung (click image to learn more)')
+        image_click_coordinates['img4'] = \
+            streamlit_image_coordinates("img/app_thumbnail_template.png",
+                                        key='app_img4', width=300)
+
+    with img_cols[2]:
+        st.header('**Demo App 5**')
+        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
+                   'lorem ipsum app beschreibung (click image to learn more)')
+        image_click_coordinates['img5'] = \
+            streamlit_image_coordinates("img/app_thumbnail_template.png",
+                                        key='app_img5', width=300)
+
+    with img_cols[3]:
         st.header('**Demo App 6**')
         st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
                    'lorem ipsum app beschreibung (click image to learn more)')
         image_click_coordinates['img6'] = \
             streamlit_image_coordinates("img/app_thumbnail_template.png",
                                         key='app_img6', width=300)
+
 
     # st.write('new', image_click_coordinates)
     # st.write('old', st.session_state.image_click_coordinates)
@@ -135,9 +131,13 @@ def app_content():
     st.container(height=300, border=False)
 
 
-
 if __name__ == '__main__':
 
-    init_session_state()    # initialize session states
-    app_content()
-    footer_main()           # insert app footer
+    page_title = 'Landing Page Grid Overview'
+    page_description = \
+        'Welcome to our app page, where innovation meets exploration! Dive into a captivating' \
+        ' overview of cutting-edge AI use cases and dynamic data analytics apps, providing potential' \
+        ' buyers with an immersive playground to experience the future of intelligent technology firsthand.' \
+        ' Discover, engage, and unleash the power of possibilities right at your fingertips!'
+
+    launch_page(build_app_content, page_title, page_description)
