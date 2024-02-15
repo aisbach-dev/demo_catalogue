@@ -2,7 +2,10 @@ import streamlit as st
 import requests
 import re
 
+from st_app_design import footer_main
 from st_app_design import custom_message_box
+from st_app_funct import build_sidebar_menu
+
 
 def set_bg_hack_url():
    '''
@@ -55,7 +58,10 @@ def callback_collect_user_email(input_mail,):
 
 
 def build_page():
-   set_bg_hack_url()
+
+   # set custom background image for the given page
+   # image is fetched from url (GitHub repo) TODO how to source locally (from deployment?)
+   # set_bg_hack_url()
 
    st.container(height=200, border=False)
 
