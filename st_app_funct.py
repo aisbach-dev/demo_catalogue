@@ -171,5 +171,4 @@ def launch_page(page_build_function, page_title='TITLE', page_description=''):
         container.empty()  # Clear the container once the page is built
         container_top.empty()
 
-
     footer_main()
