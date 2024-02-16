@@ -23,7 +23,7 @@ def build_app_content():
 
     with cols[1]:
         st.subheader('Demo App 1')
-        st.caption('sdfh kljsdfh lkasdhf klashf klasdhf lkajsdhf lksdhasdklf halsdkf halskdfh asldkjf asdf asldkfj h')
+        st.caption('sdfh kljsdfh lkasdhf klashf klasdhf lkajsdhf lksdhasdklf halsdkf halskfh asldkjf asdf asldkfj h')
         images1 = []
         with open("img/app_thumbnail_template_bw.png", "rb") as image:
             encoded = base64.b64encode(image.read()).decode()
