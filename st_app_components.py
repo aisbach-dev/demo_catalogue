@@ -7,65 +7,17 @@ import streamlit_antd_components as sac
 from htbuilder import HtmlElement, div, br, hr, a, p, styles
 from htbuilder.units import percent, px
 
+# import backend processing functions
 from st_app_funct import callback_return_button
+from st_app_funct import callback_collect_user_email
 from st_app_funct import init_session_state
 from st_app_funct import wrapper_loading_process
 from st_app_funct import page_switch
-from st_app_funct import validate_email
 
+# import design override functions
 from st_app_design import apply_design
 from st_app_design import add_spacer
-
 from st_app_design import custom_message_box
-import requests
-
-
-
-def set_bg_hack_url():
-    """
-    A function to unpack an image from url and set as bg.
-    Returns
-    -------
-    The background.
-    """
-
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background: url("https://github.com/aisbach-dev/demo_catalogue/blob/main/img/aisbach_page_bg.svg?raw=true?raw=true");
-            background-size: contain;
-            background-position: right bottom;
-            background-repeat: no-repeat;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-
-def send_event_to_formspark(user_email, event_tag):
-
-    form_url = "https://submit-form.com/LnO7yguR8"
-    form_data = {"email": user_email, "event": event_tag}
-    # Send a POST request to submit the form
-    response = requests.post(form_url, data=form_data)
-    # Check the response status
-    if response.status_code == 200:
-        return True
-    else:
-        return False
-
-
-def callback_collect_user_email(input_mail,):
-
-    email_valid = validate_email(input_mail)
-    if not email_valid:
-        st.session_state.error_invalid_email = True
-    else:  # only if the email is of valid format
-        st.session_state.error_invalid_email = False
-        send_event_to_formspark(input_mail, "user access consent")
-        st.session_state.user_email_collected = input_mail
 
 
 def build_footer_main():
@@ -109,8 +61,8 @@ def build_top_navbar():
 
     with nav_cols[1]:
         sac.buttons([
-            sac.ButtonsItem(icon='envelope-fill', href='https://www.aisbach.com/#contact', color='#25C3B0'),
-            sac.ButtonsItem(icon='linkedin', href='https://www.linkedin.com/company/aisbach', color='#25C3B0'),
+            sac.ButtonsItem(icon='envelope-fill', href='https://www.aisbach.com/#contact', color='#16C89D'),
+            sac.ButtonsItem(icon='linkedin', href='https://www.linkedin.com/company/aisbach', color='#16C89D'),
             sac.ButtonsItem(icon='globe2', color='black', disabled=False)
         ], align='end', index=2, key='weblinks')
 
@@ -123,6 +75,7 @@ def build_sidebar_menu():
     with st.sidebar:
 
         st.image('img/aisbach_logo_rounded.png')
+        add_spacer(1)
 
         # source and documentation for this menu custom component
         # https://nicedouble-streamlitantdcomponentsdemo-app-middmy.streamlit.app/
@@ -130,14 +83,13 @@ def build_sidebar_menu():
         # TODO mapping: PAGE NAME (from sidebar menu) --> MENU ITEM INDEX
         # fetch this insight so that the right item is colored and selected in the menu
         menu_current_page = st.session_state.menu_current_page
-        mapping_selected_index = {'Welcome Info': 1,
-                                  'Demo App 1': 3,
-                                  'Demo App 2': 4,
-                                  'Demo App 3': 5,
-                                  'Demo App 4': 6}
+        mapping_selected_index = {'Welcome Info': 0,
+                                  'Demo App 1': 2,
+                                  'Demo App 2': 3,
+                                  'Demo App 3': 4,
+                                  'Demo App 4': 5}
 
         menu_choice = sac.menu([
-            sac.MenuItem(type='divider'),
             sac.MenuItem('Welcome Info', icon='house-fill'),
             sac.MenuItem(type='divider'),
             sac.MenuItem('Demo App 1', icon='bar-chart-fill'),
@@ -151,8 +103,7 @@ def build_sidebar_menu():
                 sac.MenuItem('Contact', icon='envelope-fill', href='https://www.aisbach.com/#contact'),
                 sac.MenuItem('Imprint', icon='file-earmark-medical-fill', href='https://www.aisbach.com/imprint'),
                 sac.MenuItem('GDPR', icon='database-fill-check', href='https://www.aisbach.com/data-policy')
-            ]),
-            sac.MenuItem(type='divider')
+            ])
         ], open_all=False, color="#16C89D", variant='light', size=16, index=mapping_selected_index[menu_current_page])
 
 
@@ -168,7 +119,7 @@ def build_email_funnel():
     # image is fetched from url (GitHub repo) TODO how to source locally (from deployment?)
     # set_bg_hack_url()
 
-    st.container(height=200, border=False)
+    st.container(height=50, border=False)
 
     cols = st.columns([0.5, 1, 0.5])
     with cols[1]:
@@ -224,7 +175,6 @@ def launch_page(build_function: Callable, access: str = 'public_open',
     """
 
     apply_design()          # apply design overrides before spawning any streamlit component
-    set_bg_hack_url()
     init_session_state()    # (re-) initialize the session variables / load existing values
     build_sidebar_menu()    # generate an instance of the sidebar, including the menu etc.
 
@@ -246,7 +196,6 @@ def launch_page(build_function: Callable, access: str = 'public_open',
     elif access == 'email_funnel':
         # after entered once, mail is stored in session_state
         if st.session_state.user_email_collected is None:
-            set_bg_hack_url()
             build_email_funnel()
         else:  # if user has already submitted email
             wrapper_loading_process(build_function)

@@ -5,13 +5,13 @@
 # base = "light"
 
 # frequently across your app's widgets (slider, checkbox, buttons)
-primaryColor = "black"  # "#2E3D38"  # "#00E68A" # TenderPort neon Accent green
+primaryColor = "#16C89D"  # oder black? oder des echte AISBACH grün?
 
 # Background color for the main container.
 backgroundColor = "#FFFFFF"
 
 # Used as the background for most widgets (sidebar, text input etc.)
-secondaryBackgroundColor = "black"
+secondaryBackgroundColor = "#F7F7F7"
 
 # Font color for the page.
 textColor = "#424242"

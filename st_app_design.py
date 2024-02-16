@@ -98,11 +98,35 @@ def custom_subheader_status(header_text, header_status):
     st.markdown(subheader_styled, unsafe_allow_html=True)
 
 
+def set_bg_hack_url():
+    """
+    A function to unpack an image from url and set as bg.
+    Returns
+    -------
+    The background.
+    """
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: url("https://github.com/aisbach-dev/demo_catalogue/blob/main/img/aisbach_page_bg.svg?raw=true?raw=true");
+            background-size: contain;
+            background-position: right bottom;
+            background-repeat: no-repeat;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 def apply_design():
 
     # Design implement changes to the standard streamlit UI/UX
     st.set_page_config(page_title="AISBACH Demo", layout="wide", page_icon="img/aisbach_logo.png")
 
+    # set_bg_hack_url()  # Override Default Page and insert background image
 
     # Design hide top header line
     hide_decoration_bar_style = '''<style>header {visibility: hidden;}</style>'''
@@ -114,25 +138,20 @@ def apply_design():
                 unsafe_allow_html=True)
 
 
-    # Design change hyperlink href link color (st.write)
-    st.markdown('''<style>.css-16lush4 a {color: #00e68a;}</style>''',
-                unsafe_allow_html=True)  # for st.write
-
-
-    # Design move app body further up and remove top padding
-    st.markdown('''<style>.css-k1vhr4 {margin-top: -6.5rem;}</style>''',
+    # Design change hyperlink href link color
+    st.markdown('''<style>.st-emotion-cache-etkl18 a {color: black;}</style>''',
                 unsafe_allow_html=True)
 
 
-    # Design change margins below subheader titles
-    st.markdown('''<style>.st-emotion-cache-qowy96{background: white;}</style>''',
-                unsafe_allow_html=True)
-
-    # Design change margins below subheader titles
-    st.markdown('''<style>.st-b7 {color: white;}</style>''',
-                unsafe_allow_html=True)
-
-    #  {
+    # Add custom CSS styles SideBar BACKGROUND COLOR
+    # st.markdown("""
+    #     <style>
+    #         [data-testid="stSidebarContent"] {
+    #             background-color: black; /* Change this to your desired color */
+    #             /* Add any other styles you want to modify */
+    #         }
+    #     </style>
+    # """, unsafe_allow_html=True)
 
 
     # Design hide "made with streamlit" footer menu area

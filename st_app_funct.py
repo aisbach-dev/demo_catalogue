@@ -2,6 +2,7 @@
 
 import re
 import os
+import requests
 import streamlit as st
 
 
@@ -25,7 +26,6 @@ def init_session_state():
     #   function adds the session state variables again, loads the init
     #   values and checks which page the code is being executed on
     #   --> eventually updates the page to be the right subdomain
-
 
     session_state_dict = {'user_email_collected': None,
                           'error_invalid_email': False,
@@ -92,3 +92,27 @@ def callback_return_button():
 def validate_email(email):
     pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
     return (re.match(pattern, email) is not None) and (email != "")
+
+
+def send_event_to_formspark(user_email, event_tag):
+
+    form_url = "https://submit-form.com/LnO7yguR8"
+    form_data = {"email": user_email, "event": event_tag}
+    # Send a POST request to submit the form
+    response = requests.post(form_url, data=form_data)
+    # Check the response status
+    if response.status_code == 200:
+        return True
+    else:
+        return False
+
+
+def callback_collect_user_email(input_mail,):
+
+    email_valid = validate_email(input_mail)
+    if not email_valid:
+        st.session_state.error_invalid_email = True
+    else:  # only if the email is of valid format
+        st.session_state.error_invalid_email = False
+        send_event_to_formspark(input_mail, "user access consent")
+        st.session_state.user_email_collected = input_mail

@@ -14,5 +14,5 @@ def build_page():
 
 launch_page(build_page,
             access='email_funnel',
-            title='Demo App 3',
+            title='Demo App 2',
             description='lorem ipsum Beschreibung dies das')
