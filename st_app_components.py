@@ -63,7 +63,7 @@ def build_top_navbar():
         sac.buttons([
             sac.ButtonsItem(icon='envelope-fill', href='https://www.aisbach.com/#contact', color='#16C89D'),
             sac.ButtonsItem(icon='linkedin', href='https://www.linkedin.com/company/aisbach', color='#16C89D'),
-            sac.ButtonsItem(icon='globe2', color='black', disabled=False)
+            sac.ButtonsItem(icon='globe2', href='https://www.aisbach.com', color='black')
         ], align='end', index=2, key='weblinks')
 
 
