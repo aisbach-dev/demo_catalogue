@@ -1,17 +1,12 @@
 # AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
 
+import base64
 import streamlit as st
-from streamlit_image_coordinates import streamlit_image_coordinates
-
-# IMPORT custom design elements
-from st_app_design import add_spacer
-from st_app_design import custom_subheader
+from streamlit_clickable_images import clickable_images
 
 # IMPORT app menu navigation & session states
 from st_app_funct import page_switch
-from st_app_funct import launch_page
-
-
+from st_app_components import launch_page
 
 
 # TODO this function is currently not used --> maybe use for build process of the pages
@@ -36,77 +31,83 @@ def build_app_content():
 
     st.container(height=50, border=False)
 
-    # create dict with keys 'img1' to 'img6', each initialized with None
-    image_click_coordinates = {'img{}'.format(i): None for i in range(1, 7)}
-
-    img_cols = st.columns([0.2, 0.5, 0.5, 0.5, 0.2])
-
-    # ROW 1 --> for optimal loading
-    with img_cols[1]:
-        st.header('**Demo App 1**')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)   \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img1'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img1', width=300)
-        st.page_link("pages/app_page_demo1.py", label='**View Demo App 1**')
-        add_spacer(2)
-
-    with img_cols[2]:
-        st.header('**Demo App 2**')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img2'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img2', width=300)
-        if st.button("**View Demo App 2**", type='primary', key='button2'):
-            st.switch_page("pages/app_page_demo2.py")
-        add_spacer(2)
-
-    with img_cols[3]:
-        st.header('**Demo App 3**')
-        custom_subheader('servus')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img3'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img3', width=300)
-        if st.button("**View Demo App 3**", type='secondary', key='button3'):
-            st.switch_page("pages/app_page_demo3.py")
-        add_spacer(2)
+    cols = st.columns([1, 1, 1, 1, 1, 1])
 
 
-    # ROW 2 --> for optimal loading
-    with img_cols[1]:
-        st.header('**Demo App 4**')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img4'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img4', width=300)
-
-    with img_cols[2]:
-        st.header('**Demo App 5**')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img5'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img5', width=300)
-
-    with img_cols[3]:
-        st.header('**Demo App 6**')
-        st.caption('lorem ipsum app beschreibung (click image to learn more)    \n'
-                   'lorem ipsum app beschreibung (click image to learn more)')
-        image_click_coordinates['img6'] = \
-            streamlit_image_coordinates("img/app_thumbnail_template.png",
-                                        key='app_img6', width=300)
+    # clickable_images returns -1 if not yet clicked and changes to 0 if it has been clicked
+    # create dict with keys 'img1' to 'img6', each initialized with -1
+    image_click_coordinates = {'img{}'.format(i): -1 for i in range(1, 7)}
 
 
-    # st.write('new', image_click_coordinates)
-    # st.write('old', st.session_state.image_click_coordinates)
+    with cols[0]:
+        st.subheader('Demo App 1')
+        images1 = []
+        with open("img/app_thumbnail_template.png", "rb") as image:
+            encoded = base64.b64encode(image.read()).decode()
+            images1.append(f"data:image/jpeg;base64,{encoded}")
+        # clickable_images returns -1 if not yet clicked and changes to 0 if it has been clicked
+        clicked = clickable_images(images1, titles=[f"Image #{str(i)}" for i in range(len(images1))],
+                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='0')
+        image_click_coordinates['img1'] = clicked
 
-    # TODO make this dynamic so that fr every page added there is an image added automatically
-    # TODO automate so that this image added automatically is automatically synced with the mapping of pagefile names and page names
+    with cols[1]:
+        st.subheader('Demo App 2')
+        images2 = []
+        with open("img/app_thumbnail_template.png", "rb") as image:
+            encoded = base64.b64encode(image.read()).decode()
+            images2.append(f"data:image/jpeg;base64,{encoded}")
+        clicked = clickable_images(images2, titles=[f"Image #{str(i)}" for i in range(len(images2))],
+                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='1')
+        image_click_coordinates['img2'] = clicked
+
+    with cols[2]:
+        st.subheader('Demo App 3')
+        images3 = []
+        with open("img/app_thumbnail_template.png", "rb") as image:
+            encoded = base64.b64encode(image.read()).decode()
+            images3.append(f"data:image/jpeg;base64,{encoded}")
+        clicked = clickable_images(images3, titles=[f"Image #{str(i)}" for i in range(len(images3))],
+                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='2')
+        image_click_coordinates['img3'] = clicked
+
+    with cols[3]:
+        st.subheader('Demo App 4')
+        images4 = []
+        with open("img/app_thumbnail_template.png", "rb") as image:
+            encoded = base64.b64encode(image.read()).decode()
+            images4.append(f"data:image/jpeg;base64,{encoded}")
+        clicked = clickable_images(images4, titles=[f"Image #{str(i)}" for i in range(len(images4))],
+                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='3')
+        image_click_coordinates['img4'] = clicked
+
+    with cols[4]:
+        st.subheader('Demo App 5')
+        images5 = []
+        with open("img/app_thumbnail_template.png", "rb") as image:
+            encoded = base64.b64encode(image.read()).decode()
+            images5.append(f"data:image/jpeg;base64,{encoded}")
+        clicked = clickable_images(images5, titles=[f"Image #{str(i)}" for i in range(len(images5))],
+                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='4')
+        image_click_coordinates['img5'] = clicked
+
+    with cols[5]:
+        st.subheader('Demo App 6')
+        images6 = []
+        with open("img/app_thumbnail_template.png", "rb") as image:
+            encoded = base64.b64encode(image.read()).decode()
+            images6.append(f"data:image/jpeg;base64,{encoded}")
+        clicked = clickable_images(images6, titles=[f"Image #{str(i)}" for i in range(len(images6))],
+                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='5')
+        image_click_coordinates['img6'] = clicked
+
+    # TODO MAPPING MENU IMAGE --> PAGE NAME (from sidebar menu)
+
     mapping = {'img1': 'Demo App 1',
                'img2': 'Demo App 2',
                'img3': 'Demo App 3',
@@ -114,17 +115,13 @@ def build_app_content():
                'img5': 'Demo App 5',
                'img6': 'Demo App 6'}
 
-
-    # IF someone clicks on one of the images, identify which image
-    # depending on the image switch pages to the corresponding page
-    if image_click_coordinates != st.session_state.image_click_coordinates:
-        for key in image_click_coordinates.keys():
-            # find out where the new values differ to the old ones (stored in session state)
-            if image_click_coordinates[key] != st.session_state.image_click_coordinates[key]:
-                st.session_state.menu_current_page = mapping[key]
-                # after finding the newly selected image, update the session state
-                st.session_state.image_click_coordinates = image_click_coordinates
-                page_switch()  # switch to the page stored in st.session_state.menu_current_page
+    st.write(image_click_coordinates)
+    for key in image_click_coordinates.keys():
+        if image_click_coordinates[key] == 0:
+            # after finding the selected image, update the session state
+            st.session_state.menu_current_page = mapping[key]
+            st.write('switch oida', st.session_state.menu_current_page)
+            page_switch()
 
 
     # spacer between footer and the image array

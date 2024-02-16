@@ -1,12 +1,7 @@
 # AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
 
-import streamlit as st
-import pandas as pd
-import time
 import re
-from htbuilder import HtmlElement, div, br, hr, a, p, styles
-from htbuilder.units import percent, px
-import streamlit_antd_components as sac
+import streamlit as st
 
 
 def add_spacer(lines):
@@ -18,13 +13,6 @@ def add_spacer(lines):
 
 def markdown_bold_to_html(text):
     return re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
-
-
-def add_seperator_line():
-    markdown_sepline = """<hr style="border:0.1px solid #e0dcdc;
-                                     margin-top:-0.5rem;
-                                     margin-bottom:-0.5rem">"""
-    st.markdown(markdown_sepline, unsafe_allow_html=True)
 
 
 def custom_message_box(message_text, background_color='lightgrey', text_color='black',
@@ -45,7 +33,9 @@ def custom_message_box(message_text, background_color='lightgrey', text_color='b
 
 
 def custom_status(status_text, subtitle_text, background_color, text_color,
-                  border_width='1px', border_color='white', font_weight='regular', font_size_title="1.2rem"):
+                  border_width='1px', border_color='white',
+                  font_weight='regular', font_size_title="1.2rem"):
+
     # TODO margin bottom has been changed --> potentially other regions of app need fixing now
     my_custom_div = f"""<div style='background-color: {background_color};
                                     padding: 15px; padding-left:15px;
@@ -109,35 +99,29 @@ def custom_subheader_status(header_text, header_status):
 
 
 def apply_design():
+
     # Design implement changes to the standard streamlit UI/UX
     st.set_page_config(page_title="AISBACH Demo", layout="wide", page_icon="img/aisbach_logo.png")
+
 
     # Design hide top header line
     hide_decoration_bar_style = '''<style>header {visibility: hidden;}</style>'''
     st.markdown(hide_decoration_bar_style, unsafe_allow_html=True)
 
+
     # Design move app body further up and remove top padding
     st.markdown('''<style>.block-container.st-emotion-cache-z5fcl4.ea3mdgi5 {padding-top: 0rem;}</style>''',
                 unsafe_allow_html=True)
 
-    # Global Font Roboto
-    global_font_style = """
-                        <style>
-                        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap'); 
-                        html, body, [class*="css"] {font-family: 'Roboto', sans-serif;}
-                        </style>
-                        """
-    # TODO do we need this?
-    # st.markdown(global_font_style, unsafe_allow_html=True)
 
     # Design change hyperlink href link color (st.write)
     st.markdown('''<style>.css-16lush4 a {color: #00e68a;}</style>''',
                 unsafe_allow_html=True)  # for st.write
 
+
     # Design move app body further up and remove top padding
     st.markdown('''<style>.css-k1vhr4 {margin-top: -6.5rem;}</style>''',
                 unsafe_allow_html=True)
-
 
 
     # Design change margins below subheader titles
@@ -145,64 +129,7 @@ def apply_design():
                 unsafe_allow_html=True)
 
 
-
     # Design hide "made with streamlit" footer menu area
     hide_streamlit_footer = """<style>#MainMenu {visibility: hidden;}
                             footer {visibility: hidden;}</style>"""
     st.markdown(hide_streamlit_footer, unsafe_allow_html=True)
-
-
-def link(link_, text, color, **style):
-    return a(_href=link_, _target="_blank", style=styles(**style, color=color))(text)
-
-
-def layout(*args):
-    style = """<style>
-        # MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        </style>"""
-
-    body = p()
-    style_div = styles(left=0, bottom=0, margin=px(0, 0, 0, 0),
-                       width=percent(100), text_align="center",
-                       height="60px", opacity=1, color="grey")
-    foot = div(style=style_div)(hr(style=styles()), body)
-    st.markdown(style, unsafe_allow_html=True)
-
-    for arg in args:
-        if isinstance(arg, str):
-            body(arg)
-        elif isinstance(arg, HtmlElement):
-            body(arg)
-
-    st.caption(str(foot), unsafe_allow_html=True)
-
-
-def footer_main():
-
-    myargs = ["Implemented by ",
-              link("https://www.aisbach.com", "AISBACH Data Solutions UG", 'black'),
-              br(), "© 2024, all rights reserved "]
-    layout(*myargs)
-
-
-def footer_sidebar():
-
-    myargs = [link("http://www.aisbach.com/", "AISBACH", 'grey'),
-              ", founded June 2023", br(), "[AI Use Case Demo]"]
-    layout(*myargs)
-
-
-def app_top_navbar():
-
-    # display navbar on top of app page
-    nav_cols = st.columns([1, 1])
-    with nav_cols[0]:
-        if st.button('⬅  **Return to Overview**'):
-            st.switch_page('st_app_main.py')
-    with nav_cols[1]:
-        sac.buttons([
-            sac.ButtonsItem(icon='envelope-fill', href='https://www.aisbach.com/#contact', color='#25C3B0'),
-            sac.ButtonsItem(icon='linkedin', href='https://www.linkedin.com/company/aisbach', color='#25C3B0'),
-            sac.ButtonsItem(icon='globe2', color='black', disabled=False)
-        ], align='end', index=2, key='weblinks')

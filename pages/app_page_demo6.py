@@ -2,7 +2,7 @@
 
 import time
 import streamlit as st
-from st_app_funct import launch_page
+from st_app_components import launch_page
 
 
 def build_page():

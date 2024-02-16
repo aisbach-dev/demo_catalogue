@@ -43,9 +43,9 @@ six==1.16.0
 smmap==5.0.1
 streamlit==1.31.0
 streamlit-antd-components==0.3.2
+streamlit-clickable-images==0.0.3
 streamlit-custom-sidebar==0.0.16
 streamlit-float==0.3.2
-streamlit-image-coordinates==0.1.6
 streamlit-javascript==0.1.5
 tenacity==8.2.3
 toml==0.10.2
