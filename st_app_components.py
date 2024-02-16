@@ -1,7 +1,6 @@
 # AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
 
 import streamlit as st
-import streamlit_float
 from typing import Callable
 import streamlit_antd_components as sac
 from htbuilder import HtmlElement, div, br, hr, a, p, styles
@@ -68,9 +67,6 @@ def build_top_navbar():
 
 
 def build_sidebar_menu():
-
-    # TODO what does this do, do we actually need this --> research ?
-    streamlit_float.float_init(include_unstable_primary=False)
 
     with st.sidebar:
 

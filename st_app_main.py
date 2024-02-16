@@ -13,13 +13,11 @@ def build_app_content():
 
     st.container(height=50, border=False)
 
-    cols = st.columns([0.2, 1, 0.1, 1, 0.1, 1, 0.1, 1, 0.2])
-
-
     # clickable_images returns -1 if not yet clicked and changes to 0 if it has been clicked
     # create dict with keys 'img1' to 'img6', each initialized with -1
     image_click_coordinates = {'img{}'.format(i): -1 for i in range(1, 5)}
 
+    cols = st.columns([0.2, 1, 0.1, 1, 0.1, 1, 0.1, 1, 0.2])
 
     with cols[1]:
         with st.spinner('Loading preview'):
