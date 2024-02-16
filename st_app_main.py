@@ -25,7 +25,7 @@ def build_app_content():
         st.subheader('Demo App 1')
         st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
         images1 = []
-        with open("img/app_thumbnail_template.png", "rb") as image:
+        with open("img/app_thumbnail_template_bw.png", "rb") as image:
             encoded = base64.b64encode(image.read()).decode()
             images1.append(f"data:image/jpeg;base64,{encoded}")
         # clickable_images returns -1 if not yet clicked and changes to 0 if it has been clicked
@@ -38,7 +38,7 @@ def build_app_content():
         st.subheader('Demo App 2')
         st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
         images2 = []
-        with open("img/app_thumbnail_template.png", "rb") as image:
+        with open("img/app_thumbnail_template_bw.png", "rb") as image:
             encoded = base64.b64encode(image.read()).decode()
             images2.append(f"data:image/jpeg;base64,{encoded}")
         clicked = clickable_images(images2, titles=[f"Image #{str(i)}" for i in range(len(images2))],
@@ -50,7 +50,7 @@ def build_app_content():
         st.subheader('Demo App 3')
         st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
         images3 = []
-        with open("img/app_thumbnail_template.png", "rb") as image:
+        with open("img/app_thumbnail_template_bw.png", "rb") as image:
             encoded = base64.b64encode(image.read()).decode()
             images3.append(f"data:image/jpeg;base64,{encoded}")
         clicked = clickable_images(images3, titles=[f"Image #{str(i)}" for i in range(len(images3))],
@@ -62,7 +62,7 @@ def build_app_content():
         st.subheader('Demo App 4')
         st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
         images4 = []
-        with open("img/app_thumbnail_template.png", "rb") as image:
+        with open("img/app_thumbnail_template_bw.png", "rb") as image:
             encoded = base64.b64encode(image.read()).decode()
             images4.append(f"data:image/jpeg;base64,{encoded}")
         clicked = clickable_images(images4, titles=[f"Image #{str(i)}" for i in range(len(images4))],
