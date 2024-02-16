@@ -1,5 +1,6 @@
 # AISBACH Data Solutions DEMO App (Streamlit) - Implemented by Stefan Rummer, 2024
 
+import re
 import os
 import streamlit as st
 
@@ -9,8 +10,6 @@ page_name_mapping = {'app_page_demo1': 'Demo App 1',
                      'app_page_demo2': 'Demo App 2',
                      'app_page_demo3': 'Demo App 3',
                      'app_page_demo4': 'Demo App 4',
-                     'app_page_demo5': 'Demo App 5',
-                     'app_page_demo6': 'Demo App 6',
                      '': 'Welcome Info'}
 
 
@@ -51,8 +50,8 @@ def init_session_state():
 
 def page_switch():
 
+    # TODO dynamically generate this switch function, based on MAPPING?
     # TODO again mapping case PAGE NAME (from Menu) --> .py FILE PATH
-
     # loads the page as stored in the session state variable
     if st.session_state.menu_current_page == "Welcome Info":
         path = os.path.relpath("st_app_main.py")
@@ -69,16 +68,27 @@ def page_switch():
     elif st.session_state.menu_current_page == "Demo App 4":
         path = os.path.relpath("pages/app_page_demo4.py")
         st.switch_page(str(path))
-    elif st.session_state.menu_current_page == "Demo App 5":
-        path = os.path.relpath("pages/app_page_demo5.py")
-        st.switch_page(str(path))
-    elif st.session_state.menu_current_page == "Demo App 6":
-        path = os.path.relpath("pages/app_page_demo6.py")
-        st.switch_page(str(path))
     else:  # if nothing is selected then return to landing page
         path = os.path.relpath("st_app_main.py")
         st.switch_page(str(path))
 
 
+def wrapper_loading_process(build_function):
+
+    container_top = st.empty()  # build placeholder page in empty container
+    container_top.markdown("<br>" * 2, unsafe_allow_html=True)
+    with st.spinner('Loading app data ...'):  # have a spinner wrap this entire process
+        container = st.empty()  # build placeholder page in empty container
+        container.markdown("<br>" * 1000, unsafe_allow_html=True)
+        build_function()  # build actual page below the white container
+        container.empty()  # Clear the container once the page is built
+        container_top.empty()
+
+
 def callback_return_button():
     st.session_state.menu_current_page = 'Welcome Info'
+
+
+def validate_email(email):
+    pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    return (re.match(pattern, email) is not None) and (email != "")

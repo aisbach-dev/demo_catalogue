@@ -128,6 +128,12 @@ def apply_design():
     st.markdown('''<style>.st-emotion-cache-qowy96{background: white;}</style>''',
                 unsafe_allow_html=True)
 
+    # Design change margins below subheader titles
+    st.markdown('''<style>.st-b7 {color: white;}</style>''',
+                unsafe_allow_html=True)
+
+    #  {
+
 
     # Design hide "made with streamlit" footer menu area
     hide_streamlit_footer = """<style>#MainMenu {visibility: hidden;}

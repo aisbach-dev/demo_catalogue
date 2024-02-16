@@ -12,4 +12,7 @@ def build_page():
     st.write('page built successfully')
 
 
-launch_page(build_page, 'Demo App 1', 'lorem ipsum Beschreibung dies das')
+launch_page(build_page,
+            access='email_funnel',
+            title='Demo App 1',
+            description='lorem ipsum Beschreibung dies das')

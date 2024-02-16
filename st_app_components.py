@@ -2,23 +2,74 @@
 
 import streamlit as st
 import streamlit_float
+from typing import Callable
 import streamlit_antd_components as sac
 from htbuilder import HtmlElement, div, br, hr, a, p, styles
 from htbuilder.units import percent, px
 
 from st_app_funct import callback_return_button
 from st_app_funct import init_session_state
+from st_app_funct import wrapper_loading_process
 from st_app_funct import page_switch
+from st_app_funct import validate_email
 
 from st_app_design import apply_design
 from st_app_design import add_spacer
 
+from st_app_design import custom_message_box
+import requests
 
-def link(link_, text, color, **style):
-    return a(_href=link_, _target="_blank", style=styles(**style, color=color))(text)
 
 
-def layout(*args):
+def set_bg_hack_url():
+    """
+    A function to unpack an image from url and set as bg.
+    Returns
+    -------
+    The background.
+    """
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: url("https://github.com/aisbach-dev/demo_catalogue/blob/main/img/aisbach_page_bg.svg?raw=true?raw=true");
+            background-size: contain;
+            background-position: right bottom;
+            background-repeat: no-repeat;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+def send_event_to_formspark(user_email, event_tag):
+
+    form_url = "https://submit-form.com/LnO7yguR8"
+    form_data = {"email": user_email, "event": event_tag}
+    # Send a POST request to submit the form
+    response = requests.post(form_url, data=form_data)
+    # Check the response status
+    if response.status_code == 200:
+        return True
+    else:
+        return False
+
+
+def callback_collect_user_email(input_mail,):
+
+    email_valid = validate_email(input_mail)
+    if not email_valid:
+        st.session_state.error_invalid_email = True
+    else:  # only if the email is of valid format
+        st.session_state.error_invalid_email = False
+        send_event_to_formspark(input_mail, "user access consent")
+        st.session_state.user_email_collected = input_mail
+
+
+def build_footer_main():
+
     style = """<style>
         # MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
@@ -31,28 +82,19 @@ def layout(*args):
     foot = div(style=style_div)(hr(style=styles()), body)
     st.markdown(style, unsafe_allow_html=True)
 
-    for arg in args:
+    myargs = ["Implemented by ",
+              a(_href="https://www.aisbach.com",
+                _target="_blank",
+                style=styles(color='black'))("AISBACH Data Solutions UG"),
+              br(), "© 2024, all rights reserved "]
+
+    for arg in myargs:
         if isinstance(arg, str):
             body(arg)
         elif isinstance(arg, HtmlElement):
             body(arg)
 
     st.caption(str(foot), unsafe_allow_html=True)
-
-
-def build_footer_main():
-
-    myargs = ["Implemented by ",
-              link("https://www.aisbach.com", "AISBACH Data Solutions UG", 'black'),
-              br(), "© 2024, all rights reserved "]
-    layout(*myargs)
-
-
-def build_footer_sidebar():
-
-    myargs = [link("https://www.aisbach.com/", "AISBACH", 'grey'),
-              ", founded June 2023", br(), "[AI Use Case Demo]"]
-    layout(*myargs)
 
 
 def build_top_navbar():
@@ -71,7 +113,6 @@ def build_top_navbar():
             sac.ButtonsItem(icon='linkedin', href='https://www.linkedin.com/company/aisbach', color='#25C3B0'),
             sac.ButtonsItem(icon='globe2', color='black', disabled=False)
         ], align='end', index=2, key='weblinks')
-
 
 
 def build_sidebar_menu():
@@ -93,9 +134,7 @@ def build_sidebar_menu():
                                   'Demo App 1': 3,
                                   'Demo App 2': 4,
                                   'Demo App 3': 5,
-                                  'Demo App 4': 6,
-                                  'Demo App 5': 7,
-                                  'Demo App 6': 8}
+                                  'Demo App 4': 6}
 
         menu_choice = sac.menu([
             sac.MenuItem(type='divider'),
@@ -105,8 +144,6 @@ def build_sidebar_menu():
             sac.MenuItem('Demo App 2', icon='bar-chart-fill'),
             sac.MenuItem('Demo App 3', icon='bar-chart-fill'),
             sac.MenuItem('Demo App 4', icon='bar-chart-fill'),
-            sac.MenuItem('Demo App 5', icon='bar-chart-fill'),
-            sac.MenuItem('Demo App 6', icon='bar-chart-fill'),
             sac.MenuItem(type='divider'),
             sac.MenuItem('About AISBACH', icon='info-circle-fill', children=[
                 sac.MenuItem('Website', icon='browser-safari', href='https://www.aisbach.com'),
@@ -125,32 +162,96 @@ def build_sidebar_menu():
             page_switch()  # trigger switching process
 
 
-def launch_page(page_build_function, page_title='TITLE', page_description=''):
+def build_email_funnel():
 
-    # initial page setup
-    apply_design()
-    init_session_state()
-    build_sidebar_menu()
+    # set custom background image for the given page
+    # image is fetched from url (GitHub repo) TODO how to source locally (from deployment?)
+    # set_bg_hack_url()
 
-    # create header section
-    build_top_navbar()
+    st.container(height=200, border=False)
+
+    cols = st.columns([0.5, 1, 0.5])
+    with cols[1]:
+
+        with st.expander("Disclaimer & Access", expanded=True):
+
+            input_mail = st.text_input('please enter your email address')
+            # input_consent = st.checkbox('By clicking the button below I consent to AISBACH storing my email
+            # address for user analytics purposes, tracking which demo apps I have accessed and eventually contacting
+            # me for further questioning or marketing purposes via the entered email address.')
+
+            st.caption(" By clicking \"Access Demo App Now\" you accept AISBACH's"
+                       " [Terms of Service](https://tenderport.tilda.ws/terms-and-conditions) and"
+                       " [Data Privacy Policy](https://tenderport.tilda.ws/privacy-policy).")
+
+            submit_button_disabled = True
+            if input_mail != "":  # let the user press the button once they have managed to enter something
+                # only if they have entered a false email, they will be displayed the error message
+                # the error message is not displayed from the ver beginning (when user has not yet entered anything)
+                submit_button_disabled = False
+
+            if st.session_state.error_invalid_email:
+                custom_message_box('**Error:** Invalid e-mail address format.')
+
+            st.button('Access Demo App Now',
+                      disabled=submit_button_disabled,
+                      type='primary',
+                      on_click=callback_collect_user_email,
+                      args=(input_mail, ))
+
+
+    st.container(height=600, border=False)
+
+
+def launch_page(build_function: Callable, access: str = 'public_open',
+                title: str = 'Title', description: str = 'App Description') -> None:
+    """
+    Create and display a web page with specified access controls and content.
+
+    Parameters:
+    - build_function (Callable): The function responsible for building the main content of the page.
+    - access (str, optional): Specifies the access control for the page.
+        Possible values: 'public_open', 'email_funnel', 'login_required'.
+        Defaults to 'open'.
+    - title (str, optional): The title of the web page. Defaults to 'Title'.
+    - description (str, optional): The description or subtitle of the web page. Defaults to 'App Description'.
+
+    Returns:
+    None
+
+    Example Usage:
+    launch_page(my_page_builder, access='public_open', title='AI App', description='Explore the awesomeness!')
+    """
+
+    apply_design()          # apply design overrides before spawning any streamlit component
+    set_bg_hack_url()
+    init_session_state()    # (re-) initialize the session variables / load existing values
+    build_sidebar_menu()    # generate an instance of the sidebar, including the menu etc.
+
+    build_top_navbar()      # generate top-level navigation buttons, similar on every page
+
     st.divider()
     title_cols = st.columns([1, 1])
     with title_cols[0]:
-        st.title(page_title)
+        st.title(title)
     with title_cols[1]:
         add_spacer(1)
-        st.write(page_description)
+        st.write(description)
     st.divider()
 
-    # load app content
-    container_top = st.empty()  # build placeholder page in empty container
-    container_top.markdown("<br>" * 2, unsafe_allow_html=True)
-    with st.spinner('Loading app data ...'):  # have a spinner wrap this entire process
-        container = st.empty()  # build placeholder page in empty container
-        container.markdown("<br>" * 1000, unsafe_allow_html=True)
-        page_build_function()  # build actual page below the white container
-        container.empty()  # Clear the container once the page is built
-        container_top.empty()
+    # load app content OR email collection
+    # funnel depending on access settings
+    if access == 'public_open':
+        wrapper_loading_process(build_function)
+    elif access == 'email_funnel':
+        # after entered once, mail is stored in session_state
+        if st.session_state.user_email_collected is None:
+            set_bg_hack_url()
+            build_email_funnel()
+        else:  # if user has already submitted email
+            wrapper_loading_process(build_function)
+    elif access == 'login_required':
+        # TODO implement when required
+        pass
 
-    build_footer_main()
+    build_footer_main()     # generate footer menu, with clickable link to AISBACH website
