@@ -21,10 +21,11 @@ def build_app_content():
 
     with cols[1]:
         with st.spinner('Loading preview'):
-            st.subheader('Demo App 1')
-            st.caption('sdfh kljsdfh lkasdhf klashf klasdhf lkajsdhf lksdhasdklf halsdkf halskfh asldkjf asdf asldkfj h')
+            st.subheader('Audio Data Spectral Analysis')
+            st.caption('Audio Analytics Dashboard that provides insights and eliminates '
+                       'tedious tasks in the music production workflow [Plotly, Librosa, Essentia]')
             images1 = []
-            with open("img/app_thumbnail_template_bw.png", "rb") as image:
+            with open("img/app_thumbnail_audiodata.png", "rb") as image:
                 encoded = base64.b64encode(image.read()).decode()
                 images1.append(f"data:image/jpeg;base64,{encoded}")
             # clickable_images returns -1 if not yet clicked and changes to 0 if it has been clicked
