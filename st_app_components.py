@@ -104,7 +104,7 @@ def build_sidebar_menu():
                 sac.MenuItem('Imprint', icon='file-earmark-medical-fill', href='https://www.aisbach.com/imprint'),
                 sac.MenuItem('GDPR', icon='database-fill-check', href='https://www.aisbach.com/data-policy')
             ])
-        ], open_all=False, color="#16C89D", variant='light', size=16, index=mapping_selected_index[menu_current_page])
+        ], open_all=False, color="black", variant='filled', size=16, index=mapping_selected_index[menu_current_page])
 
 
         # if user clicks menu item, load selected page into session state variable

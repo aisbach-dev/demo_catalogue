@@ -22,53 +22,57 @@ def build_app_content():
 
 
     with cols[1]:
-        st.subheader('Demo App 1')
-        st.caption('sdfh kljsdfh lkasdhf klashf klasdhf lkajsdhf lksdhasdklf halsdkf halskfh asldkjf asdf asldkfj h')
-        images1 = []
-        with open("img/app_thumbnail_template_bw.png", "rb") as image:
-            encoded = base64.b64encode(image.read()).decode()
-            images1.append(f"data:image/jpeg;base64,{encoded}")
-        # clickable_images returns -1 if not yet clicked and changes to 0 if it has been clicked
-        clicked = clickable_images(images1, titles=[f"Image #{str(i)}" for i in range(len(images1))],
-                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='0')
-        image_click_coordinates['img1'] = clicked
+        with st.spinner('Loading preview'):
+            st.subheader('Demo App 1')
+            st.caption('sdfh kljsdfh lkasdhf klashf klasdhf lkajsdhf lksdhasdklf halsdkf halskfh asldkjf asdf asldkfj h')
+            images1 = []
+            with open("img/app_thumbnail_template_bw.png", "rb") as image:
+                encoded = base64.b64encode(image.read()).decode()
+                images1.append(f"data:image/jpeg;base64,{encoded}")
+            # clickable_images returns -1 if not yet clicked and changes to 0 if it has been clicked
+            clicked = clickable_images(images1, titles=[f"Image #{str(i)}" for i in range(len(images1))],
+                                       div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                       img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='0')
+            image_click_coordinates['img1'] = clicked
 
     with cols[3]:
-        st.subheader('Demo App 2')
-        st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
-        images2 = []
-        with open("img/app_thumbnail_template_bw.png", "rb") as image:
-            encoded = base64.b64encode(image.read()).decode()
-            images2.append(f"data:image/jpeg;base64,{encoded}")
-        clicked = clickable_images(images2, titles=[f"Image #{str(i)}" for i in range(len(images2))],
-                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='1')
-        image_click_coordinates['img2'] = clicked
+        with st.spinner('Loading preview'):
+            st.subheader('Demo App 2')
+            st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
+            images2 = []
+            with open("img/app_thumbnail_template_bw.png", "rb") as image:
+                encoded = base64.b64encode(image.read()).decode()
+                images2.append(f"data:image/jpeg;base64,{encoded}")
+            clicked = clickable_images(images2, titles=[f"Image #{str(i)}" for i in range(len(images2))],
+                                       div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                       img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='1')
+            image_click_coordinates['img2'] = clicked
 
     with cols[5]:
-        st.subheader('Demo App 3')
-        st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
-        images3 = []
-        with open("img/app_thumbnail_template_bw.png", "rb") as image:
-            encoded = base64.b64encode(image.read()).decode()
-            images3.append(f"data:image/jpeg;base64,{encoded}")
-        clicked = clickable_images(images3, titles=[f"Image #{str(i)}" for i in range(len(images3))],
-                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='2')
-        image_click_coordinates['img3'] = clicked
+        with st.spinner('Loading preview'):
+            st.subheader('Demo App 3')
+            st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
+            images3 = []
+            with open("img/app_thumbnail_template_bw.png", "rb") as image:
+                encoded = base64.b64encode(image.read()).decode()
+                images3.append(f"data:image/jpeg;base64,{encoded}")
+            clicked = clickable_images(images3, titles=[f"Image #{str(i)}" for i in range(len(images3))],
+                                       div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                       img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='2')
+            image_click_coordinates['img3'] = clicked
 
     with cols[7]:
-        st.subheader('Demo App 4')
-        st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
-        images4 = []
-        with open("img/app_thumbnail_template_bw.png", "rb") as image:
-            encoded = base64.b64encode(image.read()).decode()
-            images4.append(f"data:image/jpeg;base64,{encoded}")
-        clicked = clickable_images(images4, titles=[f"Image #{str(i)}" for i in range(len(images4))],
-                                   div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-                                   img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='3')
-        image_click_coordinates['img4'] = clicked
+        with st.spinner('Loading preview'):
+            st.subheader('Demo App 4')
+            st.caption('lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ')
+            images4 = []
+            with open("img/app_thumbnail_template_bw.png", "rb") as image:
+                encoded = base64.b64encode(image.read()).decode()
+                images4.append(f"data:image/jpeg;base64,{encoded}")
+            clicked = clickable_images(images4, titles=[f"Image #{str(i)}" for i in range(len(images4))],
+                                       div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+                                       img_style={"margin": "5px", "height": "auto", "width": '100%'}, key='3')
+            image_click_coordinates['img4'] = clicked
 
 
     # TODO MAPPING MENU IMAGE --> PAGE NAME (from sidebar menu)
